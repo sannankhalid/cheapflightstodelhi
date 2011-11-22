@@ -1,0 +1,52 @@
+<div id="content">
+  <div id="flash">
+    <%= render :partial => "/shared/flash" %>
+  </div>
+  <div class="post">
+    <h1>Listing destinations</h1>
+
+    <table width="100%" cellpadding="3" cellspacing="3">
+      <tr bgcolor="#f1f1f1">
+        <th>Name</th>
+        <th width="62%">Body</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+
+      <% @destinations.each do |destination| %>
+          <tr>
+            <td><%= destination.city.name %></td>
+            <td><%= destination.body_text %></td>
+            <td><%= link_to 'Add Fare', "/fare_details/new?did=#{destination.id}" %></td>
+            <td><%= link_to 'Show', destination %></td>
+            <td><%= link_to 'Edit', edit_destination_path(destination) %></td>
+            <td><%= link_to 'Destroy', "javascript:;", :onclick => "destroy_destination(#{destination.id})" %></td>
+
+          </tr>
+      <% end %>
+    </table>
+
+    <br/>
+
+    <%= link_to 'New Destination', new_destination_path %>
+
+  </div>
+</div>
+<%= render :partial => "/shared/sidebar" %>
+<div style="clear: both;">&nbsp;</div>
+<script type="text/javascript">
+
+    function destroy_destination(destination_id) {
+        if (confirm("Are you sure you want to delete this destination")) {
+            $.ajax({
+                url: '/destinations/destroy_destination?id=' + destination_id, type: 'post', dataType: "html",
+                processData: false,
+                success: function(data) {
+                    window.location.href = "/destinations";
+                }
+            });
+        }
+    }
+</script>

@@ -1,0 +1,49 @@
+<div id="content">
+  <div id="flash">
+    <%= render :partial => "/shared/flash" %>
+  </div>
+
+  <div class="post">
+    <%= form_for(@airline) do |f| %>
+        <% if @airline.errors.any? %>
+            <div id="error_explanation">
+              <h2><%= pluralize(@airline.errors.count, "error") %> prohibited this airline from being saved:</h2>
+
+              <ul>
+                <% @airline.errors.full_messages.each do |msg| %>
+                    <li><%= msg %></li>
+                <% end %>
+              </ul>
+            </div>
+        <% end %>
+        <div class="field">
+          <% unless params[:action] == "new" %>
+              Edit field for <%= @airline.name %>
+          <% else %>
+              Add New Airline
+          <% end %>
+          <br/>
+        </div>
+        <div class="field">
+          <%= f.label :name %>
+          <br/>
+          <%= f.text_field :name %>
+        </div>
+        <div class="field">
+          <%= f.label :code %>
+          <br/>
+          <%= f.text_field :code %>
+        </div>
+        <div class="actions">
+          <%= f.submit %> <%= link_to 'Back', airlines_path %>
+        </div>
+    <% end %>
+  </div>
+</div>
+<!-- end content -->
+<!-- start sidebar -->
+<%= render :partial => "/shared/sidebar" %>
+<!-- end sidebar -->
+<div style="clear: both;">&nbsp;</div>
+
+

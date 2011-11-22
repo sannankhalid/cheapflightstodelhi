@@ -1,0 +1,63 @@
+<%= javascript_include_tag "tiny_mce/tiny_mce", "mce_init" %>
+<% unless @page.blank? %>
+    <title><%= @page.title %></title>
+    <meta name="description" content="<%= @page.meta_description %>"/>
+    <meta name="keywords" content="<%= @page.meta_keywords %>"/>
+<% end %>
+<%= form_for(@page) do |f| %>
+    <div id="content">
+      <div id="flash">
+        <%= render :partial => "/shared/flash" %>
+      </div>
+      <div class="post">
+        <% if @page.errors.any? %>
+            <div id="error_explanation">
+              <h2><%= pluralize(@page.errors.count, "error") %> prohibited this page from being saved:</h2>
+
+              <ul>
+                <% @page.errors.full_messages.each do |msg| %>
+                    <li><%= msg %></li>
+                <% end %>
+              </ul>
+            </div>
+        <% end %>
+        <div class="field">
+          Edit field for <%= @page.name %>
+          <br/>
+        </div>
+        <div class="field">
+          <%= f.label :title %>
+          <br/>
+          <%= f.text_field :title %>
+        </div>
+        <div class="field">
+          <%= f.label :meta_keywords %>
+          <br/>
+          <%= f.text_area :meta_keywords %>
+        </div>
+        <div class="field">
+          <%= f.label :meta_description %>
+          <br/>
+          <%= f.text_area :meta_description %>
+        </div>
+        <div class="field">
+          <%= f.label :content %>
+          <br/>
+          <%= f.text_area :content, :class => "mceEditor" %>
+        </div>
+        <div class="actions">
+          <%= f.submit %>
+        </div>
+
+        <%= link_to 'Show', @page %> |
+        <%= link_to 'Back', pages_path %>
+
+      </div>
+    </div>
+    <!-- end content -->
+    <!-- start sidebar -->
+    <%= render :partial => "/shared/sidebar" %>
+    <!-- end sidebar -->
+    <div style="clear: both;">&nbsp;</div>
+
+<% end %>

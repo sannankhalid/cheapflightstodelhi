@@ -1,0 +1,70 @@
+<% unless @page.blank? %>
+    <title><%= @page.title %></title>
+    <meta name="description" content="<%= @page.meta_description %>"/>
+    <meta name="keywords" content="<%= @page.meta_keywords %>"/>
+<% end %>
+<div id="content">
+  <div id="flash">
+    <%= render :partial => "/shared/flash" %>
+  </div>
+  <div class="post">
+    <% unless @page.blank? %>
+        <%= raw(@page.content) %>
+    <% end %>
+    <div style="clear:both;padding-top:10px;padding-left:10px;">
+      <% unless @fares.blank? %>
+          <% if @fares.size >= 0 %>
+              <% @fares.sort_by { rand }.first(9).each_with_index do |fare, index| %>
+                  <div class="box_bg"
+                       <% if index > 2 %>style="margin-top:60px;"
+                       <% end %>>
+                    <div class="airline_name" style="text-align:center; margin-top:15px;">
+                      <%= image_tag("/images/airlines/#{fare.airline.name}.jpg", :width => 120, :height => 45) %>
+                    </div>
+                    <div class="text_details" style="padding-left:8px;font-size:11px !important;clear:both;margin-top:25px;">
+                      <table>
+                        <tr>
+                          <td>
+                            Destination:
+                          </td>
+                          <td>
+                            <%= fare.destination.city.name %>, <%= fare.destination.city.state.country.name %>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            From:
+                          </td>
+                          <td>
+                            <%= fare.departure.airport %>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            Season:
+                          </td>
+                          <td>
+                            <% unless fare.from_date.blank? %>
+                                <%= fare.from_date.strftime("%d %b %y") %>
+                            <% end %>
+                            <% unless fare.from_date.blank? %>
+                                - <%= fare.to_date.strftime("%d %b %y") %>
+                            <% end %>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div class="airline_name_currency" style="text-align:center; margin-top:15px;margin-left:25px;">
+                      <div class="currency_amount" style="padding-top:10px; color:white;font-size:24px;font-weight:bold;">
+                        <a href="/welcome/destination?id=<%= fare.destination.id %>"><i>£<%= fare.fare.to_i %></i></a>
+                      </div>
+                    </div>
+                  </div>
+              <% end %>
+          <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>
+<%= render :partial => "/shared/sidebar" %>
+<div style="clear: both;">&nbsp;</div>

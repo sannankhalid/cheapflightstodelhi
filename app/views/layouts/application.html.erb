@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head xmlns="http://www.w3.org/1999/xhtml">
+  <%= stylesheet_link_tag "main" %>
+  <%= javascript_include_tag "jquery-1.4.4.min", "jquery-ui.min", "jquery.form", "swfobject" %>
+  <%= csrf_meta_tag %>
+</head>
+<body>
+<!-- start header -->
+<div id="header">
+  <%= image_tag("/images/header.jpg", :width => "960") %>
+</div>
+<!-- end header -->
+<!-- start menu -->
+<%= render :partial => "/shared/menus" %>
+
+<!-- end menu -->
+<!-- start page -->
+<div id="page">
+  <%= yield %>
+</div>
+<div id="footer">
+  <div class="total_destinations">
+    <% destinations = Destination.find(:all) %>
+    <% unless destinations.blank? %>
+        <div class="popular_destination" style="color:black !important;font-size:30px;">
+          Popular Destination
+        </div>
+        <div class="destination_rows_all">
+          <% destinations.uniq.sort_by { rand }.first(44).each do |destination| %>
+              <div class="destination_row_binder" id="city_<%= destination.id %>" style="margin-top:15px;">
+                <%= link_to "Flights to #{destination.city.name}", "/welcome/destination?id=#{destination.id}" %>
+              </div>
+          <% end %>
+        </div>
+    <% end %>
+  </div>
+  <div style="clear:both;text-align:justify;line-height:28px;padding: 30px 30px 5px;color:white;">We are available to assist you 24 hours a day, 7
+    days a week at 0207 993 6606, All fares are excluding taxes and subject to availability.<br/>
+    All the contents of cheapflightstodelhi.org are fully protected by Copyright © <%= Date.today.strftime("%Y") %>, All
+    rights reserved.
+
+    All Bookings are protected by IATA & ATOL holders and financially protected by Travel Trust Association; we accept
+    all debit/credit cards from UK.<br/>
+
+    Company Registration: 07231367 Registered Address: 1st Floor 2 Woodberry Grove North Finchley London, N12 0DR, 0207
+    993 6789 <br/>
+
+    Our Partners: Flights tube Limited
+  </div>
+</div>
+</body>
+</html>

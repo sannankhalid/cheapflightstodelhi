@@ -1,0 +1,219 @@
+<div id="content">
+  <div id="flash">
+    <%= render :partial => "/shared/flash" %>
+  </div>
+  <div class="post">
+
+
+    <%= form_for(@fare_detail, :html => { :id => "fare_detail_form", :onsubmit => 'return false;' }) do |f| %>
+        <% if @fare_detail.errors.any? %>
+            <div id="error_explanation">
+              <h2><%= pluralize(@fare_detail.errors.count, "error") %> prohibited this fare_detail from being
+                saved:</h2>
+
+              <ul>
+                <% @fare_detail.errors.full_messages.each do |msg| %>
+                    <li><%= msg %></li>
+                <% end %>
+              </ul>
+            </div>
+        <% end %>
+        <div class="field">
+          <label>
+            Airline: <%= link_to "add", "/airlines" %>
+          </label>
+          <br/>
+          <% if params[:action] == "edit" %>
+              <%= select_tag("fare_detail[airline_id]", options_for_select(@airlines.map { |airline| [airline.name, airline.id] }, @fare_detail.airline_id), :class=> "drop_down_side_form", :style => "width:225px;margin-top:5px;") %>
+          <% else %>
+              <%= select_tag("fare_detail[airline_id]", options_for_select(@airlines.map { |airline| [airline.name, airline.id] }), :class=> "drop_down_side_form", :style => "width:225px;margin-top:5px;") %>
+          <% end %>
+
+        </div>
+        <br/>
+
+        <div class="field">
+          <label>
+            Airline Class:
+          </label>
+          <br/>
+          <% if params[:action] == "edit" %>
+              <%= select_tag("fare_detail[airline_class_id]", options_for_select(AirlineClass.all.map { |airline_class| [airline_class.name, airline_class.id] }, @fare_detail.airline_class_id), :class => "drop_down_side_form", :style => "width:225px;") %>
+          <% else %>
+              <%= select_tag("fare_detail[airline_class_id]", options_for_select(AirlineClass.all.map { |airline_class| [airline_class.name, airline_class.id] }), :class => "drop_down_side_form", :style => "width:225px;") %>
+          <% end %>
+
+        </div>
+        <br/>
+
+        <div class="field">
+          <label>
+            From: <%= link_to "add", "/departures" %>
+          </label>
+          <br/>
+          <% if params[:action] == "edit" %>
+              <%= select_tag("fare_detail[departure_id]", options_for_select(Departure.all.map { |departure| [departure.airport, departure.id] }, @fare_detail.departure_id), :class => "drop_down_side_form", :style => "width:225px;margin-top:5px;") %>
+          <% else %>
+              <%= select_tag("fare_detail[departure_id]", options_for_select(Departure.all.map { |departure| [departure.airport, departure.id] }), :class => "drop_down_side_form", :style => "width:225px;margin-top:5px;") %>
+          <% end %>
+
+        </div>
+        <br/>
+
+        <div class="fields" style="float:left; width:121px; padding-left:3px;">
+          <div class="field_text">
+            From Date:
+          </div>
+          <div class="field_text_area" style="float:left;width: 92px;">
+            <% if params[:action] == "edit" %>
+                <% unless  @fare_detail.from_date.blank? %>
+                    <%= text_field_tag "fare_detail[from_date]", @fare_detail.from_date.strftime("%m/%d/%Y"), :class => "small_text_field_form required", :style=> 'width:85px !important;' %>
+                <% else %>
+                    <%= text_field_tag "fare_detail[from_date]", nil, :class => "small_text_field_form required", :style=> 'width:85px !important;' %>
+                <% end %>
+            <% else %>
+                <%= text_field_tag "fare_detail[from_date]", nil, :class => "small_text_field_form required", :style=> 'width:85px !important;' %>
+            <% end %>
+          </div>
+          <div class="calander_icon">
+            <img src="/images/calendar.png" id="from_date" alt="" width="20" height="25"/>
+
+            <div id="datepicker_from_date" style=" display:none;      background-color: #FFFFFF;margin-left: -78px;margin-top: -5px;padding: 5px;position: absolute;z-index: 9999;"></div>
+          </div>
+        </div>
+        <div class="fields" style="float:left; width:121px;">
+          <div class="field_text">
+            To Date:
+          </div>
+          <div class="field_text_area" style="float:left;width: 92px;">
+            <% if params[:action] == "edit" %>
+                <% unless  @fare_detail.to_date.blank? %>
+                    <%= text_field_tag "fare_detail[to_date]", @fare_detail.to_date.strftime("%m/%d/%Y"), :class => "small_text_field_form required", :style=> 'width:85px !important;' %>
+                <% else %>
+                    <%= text_field_tag "fare_detail[to_date]", nil, :class => "small_text_field_form required", :style=> 'width:85px !important;' %>
+                <% end %>
+
+            <% else %>
+                <%= text_field_tag "fare_detail[to_date]", nil, :class => "small_text_field_form required", :style=> 'width:85px !important;' %>
+            <% end %>
+          </div>
+          <div class="calander_icon">
+            <img src="/images/calendar.png" id="to_date" alt="" width="20" height="25"/>
+
+            <div id="datepicker_to_date" style=" display:none;background-color: rgb(255, 255, 255); padding: 5px; position: absolute; z-index: 9999;margin-left: -80px; margin-top: -5px;"></div>
+          </div>
+        </div>
+        <br/>
+
+        <div class="fields" style="clear:both; width:160px;padding-top:13px;">
+          <div class="field_text" style="float:left;width:50px;padding-top: 5px;">
+            Fare: <b>£</b>
+          </div>
+          <div class="field_text_area" style="float:left;width: 92px;">
+            <% if params[:action] == "edit" %>
+                <%= text_field_tag "fare_detail[fare]", @fare_detail.fare, :class => "small_text_field_form required", :style=> 'width:85px !important;' %>
+            <% else %>
+                <%= text_field_tag "fare_detail[fare]", nil, :class => "small_text_field_form required", :style=> 'width:85px !important;' %>
+            <% end %>
+
+          </div>
+        </div>
+        <div class="fields" style="clear: both; padding-top: 13px; color: red; width: 98%; text-align: center; display:none;" id="already_added">
+          This fare is already added with same airline, destination and departure city. Please try again with different
+          combination. Thanks
+        </div>
+        <br/>
+        <%= hidden_field_tag "fare_detail[destination_id]", params[:did] %>
+        <div class="field" style="clear:both;padding-top:10px;">
+          <% if params[:action] == "edit" %>
+              <%= submit_tag "Update Fare", :id=> "fare_detail_submit" %>
+          <% else %>
+              <%= submit_tag "Add Fare", :id=> "fare_detail_submit" %>
+          <% end %>
+
+          <%= link_to 'Back', destinations_path %>
+        </div>
+    <% end %>
+
+  </div>
+</div>
+<!-- end content -->
+<!-- start sidebar -->
+<%= render :partial => "/shared/sidebar" %>
+<!-- end sidebar -->
+<div style="clear: both;">&nbsp;</div>
+
+<script type="text/javascript">
+    $("#datepicker_from_date").datepicker({
+        changeYear: true,
+        changeMonth: true,
+        onSelect: function() {
+            $("#datepicker_from_date").hide();
+            $("#fare_detail_from_date").val($("#datepicker_from_date").val());
+        }
+    });
+    $("#from_date").click(function() {
+        $("#datepicker_from_date").toggle();
+    });
+    $("#datepicker_to_date").datepicker({
+        changeYear: true,
+        changeMonth: true,
+        onSelect: function() {
+            $("#datepicker_to_date").hide();
+            $("#fare_detail_to_date").val($("#datepicker_to_date").val());
+        }
+    });
+    $("#to_date").click(function() {
+        $("#datepicker_to_date").toggle();
+    });
+
+    $("#fare_detail_form").validate({
+        rules: {
+            "fare_detail[from_date]":
+            {
+                required: true,
+                date: true
+            },
+            "fare_detail[to_date]":
+            {
+                required: true,
+                date: true
+
+            },
+            "fare_detail[fare]":
+            {
+                required: true,
+                number: true
+            }
+        },
+        messages: {
+            "fare_detail[from_date]": "Please enter a valid Date",
+            "fare_detail[to_date]": "Please enter a valid Date",
+            "fare_detail[fare]": "Please enter number"
+        }
+    });
+    $("#fare_detail_submit").click(function() {
+        if (!$("#fare_detail_form").valid()) {
+            return false;
+        }
+        else {
+            $('#fare_detail_form').submit(function() {
+                $(this).unbind('submit').ajaxSubmit({
+                    success: function(data) {
+                        <% if params[:action] == "new" %>
+                        if (data == "cancel") {
+                            $("#already_added").show();
+                        }
+                        else {
+                            window.location.href = "/destinations/<%= params[:did] %>";
+                        }
+                        <% else %>
+                        window.location.href = "/destinations/<%= params[:did] %>";
+                        <% end %>
+                    }
+                })
+                return false
+            });
+        }
+    });
+</script>

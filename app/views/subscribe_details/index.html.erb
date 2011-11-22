@@ -1,0 +1,21 @@
+<h1>Listing subscribe_details</h1>
+
+<table>
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @subscribe_details.each do |subscribe_detail| %>
+  <tr>
+    <td><%= link_to 'Show', subscribe_detail %></td>
+    <td><%= link_to 'Edit', edit_subscribe_detail_path(subscribe_detail) %></td>
+    <td><%= link_to 'Destroy', subscribe_detail, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Subscribe detail', new_subscribe_detail_path %>

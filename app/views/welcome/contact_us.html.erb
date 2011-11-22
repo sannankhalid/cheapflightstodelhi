@@ -1,0 +1,280 @@
+<% unless @page.blank? %>
+    <title><%= @page.title %></title>
+    <meta name="description" content="<%= @page.meta_description %>"/>
+    <meta name="keywords" content="<%= @page.meta_keywords %>"/>
+<% end %>
+<div id="content">
+  <div id="flash">
+    <%= render :partial => "/shared/flash" %>
+  </div>
+  <div class="post">
+    <% unless @page.blank? %>
+        <%= raw(@page.content) %>
+    <% end %>
+
+  </div>
+  <div style="clear:both;padding-top:25px;">
+    <%= form_for :departure, :url => { :controller => "welcome", :action => 'send_contact_us' }, :html => { :multipart => true, :class => 'cmxform', :id => "contact_enquiry_form", :onsubmit => 'return false;' } do |f| %>
+        <div class="contact_us_bg">
+          <div class="center_contact">
+            <div class="envelope_contact">
+              <%= image_tag("/images/contact_us_logo.png") %>
+            </div>
+          </div>
+        </div>
+        <div class="divider">
+          Personal Info
+        </div>
+        <div class="contact_us_bg clearfix" style="padding-bottom:26px;">
+          <div class="center_contact">
+            <div class="envelope_contact">
+              <div class="title_bg_contact">
+                <div class="contact_title">Title</div>
+              </div>
+              <div class="text_box_bg_contact">
+                <%= select_tag("contact[title]", options_for_select([["Mr.", "Mr."]] + [["Miss.", "Miss."]] + [["Mrs.", "Mrs."]] + [["Ms.", "Ms."]]), :class=> "drop_down_setting") %>
+              </div>
+            </div>
+          </div>
+          <div class="center_contact" style="padding-top:20px;">
+            <div class="envelope_contact">
+              <div class="title_bg_contact">
+                <div class="contact_title">First Name</div>
+              </div>
+              <div class="text_box_bg_contact">
+                <%= text_field_tag "contact[first_name]", nil, :class => "text_box_contact" %>
+              </div>
+            </div>
+          </div>
+          <div class="center_contact" style="padding-top:20px;">
+            <div class="envelope_contact">
+              <div class="title_bg_contact">
+                <div class="contact_title">Last Name</div>
+              </div>
+              <div class="text_box_bg_contact">
+                <%= text_field_tag "contact[last_name]", nil, :class => "text_box_contact" %>
+              </div>
+            </div>
+          </div>
+          <div class="center_contact" style="padding-top:20px;">
+            <div class="envelope_contact">
+              <div class="title_bg_contact">
+                <div class="contact_title">E-mail Address</div>
+              </div>
+              <div class="text_box_bg_contact">
+                <%= text_field_tag "contact[email]", nil, :class => "text_box_contact" %>
+              </div>
+            </div>
+          </div>
+          <div class="center_contact" style="padding-top:20px;">
+            <div class="envelope_contact">
+              <div class="title_bg_contact">
+                <div class="contact_title">Phone</div>
+              </div>
+              <div class="text_box_bg_contact">
+                <%= text_field_tag "contact[phone]", nil, :class => "required text_box_contact" %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="divider">
+          Flights Detail
+        </div>
+        <div class="contact_us_bg clearfix">
+          <div class="center_contact" style="padding-top:20px;">
+            <div class="envelope_contact">
+              <div class="title_bg_contact">
+                <div class="contact_title">Departure From</div>
+              </div>
+              <div class="text_box_bg_contact">
+                <%= select_tag("contact[departure_id]", options_for_select(Departure.all.map { |departure| [departure.airport, departure.id] }), :class=> "drop_down_setting") %>
+              </div>
+            </div>
+          </div>
+          <div class="center_contact" style="padding-top:35px;">
+            <div class="envelope_contact">
+              <div class="title_bg_contact">
+                <div class="contact_title">Destination</div>
+              </div>
+              <div class="text_box_bg_contact">
+                <% citiesss = [] %>
+                <% india_country = Country.find(113) %>
+                <% india_country.states.each do |state| %>
+                    <% state.cities.each do |city| %>
+                        <% citiesss << city %>
+                    <% end %>
+                <% end %>
+                <%= select_tag("contact[city_id]", options_for_select(citiesss.sort! { |a, b| a.name.downcase <=> b.name.downcase }.map { |destination| [destination.name, destination.id] }), :class=> "drop_down_setting") %>
+              </div>
+            </div>
+          </div>
+          <div class="center_contact" style="padding-top:35px;">
+            <div class="envelope_contact">
+              <div class="title_bg_contact">
+                <div class="contact_title">Departure Date</div>
+              </div>
+              <div class="text_box_bg_contact">
+                <%= text_field_tag "contact[departure_date]", nil, :class => "required text_box_contact" %>
+              </div>
+              <div class="" style="float:left;">
+                <div class="calander_icon">
+                  <img src="/images/calendar.png" id="datepickerimage_contact" alt="" width="20" height="25"/>
+
+                  <div id="datepicker_contact" style=" display:none;background-color: rgb(255, 255, 255); padding: 5px; position: absolute; z-index: 9999;margin-left: -80px; margin-top: -5px;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="center_contact" style="padding-top:35px;">
+            <div class="envelope_contact">
+              <div class="title_bg_contact">
+                <div class="contact_title">Return Date</div>
+              </div>
+              <div class="text_box_bg_contact">
+                <%= text_field_tag "contact[return_date]", nil, :class => "text_box_contact" %>
+              </div>
+              <div class="" style="float:left;">
+                <div class="calander_icon">
+                  <img src="/images/calendar.png" id="datepickerimage_contact_return" alt="" width="20" height="25"/>
+
+                  <div id="datepicker_contact_return" style=" display:none;background-color: rgb(255, 255, 255); padding: 5px; position: absolute; z-index: 9999;margin-left: -80px; margin-top: -5px;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="center_contact" style="padding-top:35px;">
+            <div class="envelope_contact">
+              <div class="title_bg_contact">
+                <div class="contact_title">Flight Class</div>
+              </div>
+              <div class="text_box_bg_contact">
+                <%= select_tag("contact[airline_class_id]", options_for_select(AirlineClass.all.map { |airline_class| [airline_class.name, airline_class.id] }), :class => "drop_down_setting") %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="divider">
+          Comments
+        </div>
+        <div class="contact_us_bg clearfix">
+          <div class="center_contact" style="padding-top:10px;">
+            <div class="envelope_contact">
+              <div class="title_bg_contact">
+                <div class="contact_title">Message</div>
+              </div>
+              <div class="textarea_box_contact">
+                <%= text_area_tag "contact[message]", nil, :class => "required textarea_setting", :rows => 5, :cols => 8 %>
+              </div>
+            </div>
+          </div>
+          <div class="center_contact" style="clear:both;padding-top:20px;">
+            <div class="envelope_contact">
+              <div class="title_bg_contact">
+                <div class="contact_title">Contact Me</div>
+              </div>
+              <div class="" style="float: left; padding-top: 5px; padding-left: 1px;">
+                <div class="radio_btn">
+                  <%= radio_button_tag "contact[email_type]", 'email', false, :class => "required" %>
+                </div>
+                <div class="radio_btn_text">
+                  E-Mail
+                </div>
+
+              </div>
+              <div class="" style="float:left;padding-top:5px;padding-left:10px;">
+                <div class="radio_btn">
+                  <%= radio_button_tag "contact[email_type]", 'phone', false, :class => "required" %>
+                </div>
+                <div class="radio_btn_text">
+                  Phone
+                </div>
+              </div>
+              <div class="row_area" style="clear: both; padding-top: 25px; padding-right: 40px;">
+                <div class="fields" style="text-align:center;">
+                  <%= image_submit_tag("/images/submit_contact.png", :id => "contact_submit") %>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    <% end %>
+  </div>
+</div>
+<%= render :partial => "/shared/sidebar" %>
+<div style="clear: both;">&nbsp;</div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#contact_enquiry_form").validate({
+            rules: {
+                "contact[phone]":
+                {
+                    required: true
+                },
+                "contact[email]":
+                {
+                    required: true,
+                    email: true
+                },
+                "contact[departure_date]":
+                {
+                    required: true,
+                    date: true
+                },
+                "contact[return_date]":
+                {
+                    date: true
+                }
+            },
+            messages: {
+                "contact[first_name]": "Please enter your First Name",
+                "contact[last_name]": "Please enter your Last Name",
+                "contact[phone]": "Please enter your Phone Number",
+                "contact[email]": "Please enter a valid Email Address",
+                "contact[departure_date]": "Please enter a valid Date"
+            }
+        });
+    });
+    $("#contact_submit").click(function() {
+        if (!$("#contact_enquiry_form").valid()) {
+            return false;
+        }
+        else {
+            $('#contact_enquiry_form').submit(function() {
+                $(this).unbind('submit').ajaxSubmit({
+                    success: function(data) {
+                        window.location.href = "/"
+                    }
+                })
+                return false
+            });
+        }
+    });
+
+    function done_date_picker() {
+        $("#datepicker_contact").hide();
+        $("#datepicker_contact_return").hide();
+    }
+    $("#datepicker_contact").datepicker({
+        changeYear: true,
+        changeMonth: true,
+        onSelect: function() {
+            $("#datepicker_contact").hide();
+            $("#contact_departure_date").val($("#datepicker_contact").val());
+        }
+    });
+    $("#datepickerimage_contact").click(function() {
+        $("#datepicker_contact").toggle();
+    });
+    $("#datepicker_contact_return").datepicker({
+        changeYear: true,
+        changeMonth: true,
+        onSelect: function() {
+            $("#datepicker_contact_return").hide();
+            $("#contact_return_date").val($("#datepicker_contact_return").val());
+        }
+    });
+    $("#datepickerimage_contact_return").click(function() {
+        $("#datepicker_contact_return").toggle();
+    });
+</script>

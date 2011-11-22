@@ -1,0 +1,21 @@
+<h1>Listing airline_classes</h1>
+
+<table>
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @airline_classes.each do |airline_class| %>
+  <tr>
+    <td><%= link_to 'Show', airline_class %></td>
+    <td><%= link_to 'Edit', edit_airline_class_path(airline_class) %></td>
+    <td><%= link_to 'Destroy', airline_class, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Airline class', new_airline_class_path %>

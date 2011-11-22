@@ -1,0 +1,19 @@
+development:
+  adapter: mysql
+  encoding: utf8
+  reconnect: false
+  database: cheapflightstodelhi
+  pool: 5
+  username: root
+  password: root
+  host: localhost
+
+production:
+  adapter: mysql
+  encoding: utf8
+  reconnect: false
+  database: cheapflightstodelhi
+  pool: 5
+  username: root
+  password: root
+  host: localhost

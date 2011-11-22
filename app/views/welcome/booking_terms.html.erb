@@ -1,0 +1,20 @@
+<% unless @page.blank? %>
+    <title><%= @page.title %></title>
+    <meta name="description" content="<%= @page.meta_description %>"/>
+    <meta name="keywords" content="<%= @page.meta_keywords %>"/>
+<% end %>
+<div id="content">
+  <div id="flash">
+    <%= render :partial => "/shared/flash" %>
+  </div>
+  <div class="post">
+    <% unless @page.blank? %>
+        <%= raw(@page.content) %>
+    <% end %>
+  </div>
+</div>
+<!-- end content -->
+<!-- start sidebar -->
+<%= render :partial => "/shared/sidebar" %>
+<!-- end sidebar -->
+<div style="clear: both;">&nbsp;</div>

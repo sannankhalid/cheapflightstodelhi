@@ -1,0 +1,21 @@
+<h1>Listing enquiry_details</h1>
+
+<table>
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @enquiry_details.each do |enquiry_detail| %>
+  <tr>
+    <td><%= link_to 'Show', enquiry_detail %></td>
+    <td><%= link_to 'Edit', edit_enquiry_detail_path(enquiry_detail) %></td>
+    <td><%= link_to 'Destroy', enquiry_detail, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Enquiry detail', new_enquiry_detail_path %>

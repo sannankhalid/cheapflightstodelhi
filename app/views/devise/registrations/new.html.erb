@@ -1,0 +1,54 @@
+<div id="content">
+  <div id="flash">
+    <%= render :partial => "/shared/flash" %>
+  </div>
+  <div class="post">
+    <div class="heading">Sign up</div>
+    <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+        <div class="fields_area">
+          <div class="field_outer" style="padding-top:0">
+            <div class="error_messages">
+              <%= devise_error_messages! %>
+            </div>
+          </div>
+          <div class="field_outer">
+            <div class="field_label">
+              <%= f.label :email %>
+            </div>
+            <div class="field_box">
+              <%= f.text_field :email %>
+            </div>
+          </div>
+
+          <div class="field_outer">
+            <div class="field_label">
+              <%= f.label :password %>
+            </div>
+            <div class="field_box">
+              <%= f.password_field :password %>
+            </div>
+          </div>
+          <div class="field_outer">
+            <div class="field_label">
+              <%= f.label :password_confirmation %>
+            </div>
+            <div class="field_box">
+              <%= f.password_field :password_confirmation %>
+            </div>
+          </div>
+          <div class="field_outer">
+            <div class="submit_button">
+              <%= f.submit "Sign up" %>
+            </div>
+          </div>
+        </div>
+    <% end %>
+    <%= render :partial => "devise/shared/links" %>
+  </div>
+</div>
+<!-- end content -->
+<!-- start sidebar -->
+<%= render :partial => "/shared/sidebar" %>
+<!-- end sidebar -->
+<div style="clear: both;">&nbsp;</div>
+

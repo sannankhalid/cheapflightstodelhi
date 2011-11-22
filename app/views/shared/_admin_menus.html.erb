@@ -1,0 +1,35 @@
+<div id="menu">
+  <ul>
+    <% if params[:controller] == "pages" %>
+        <li class="current_page_item">
+    <% else %>
+        <li>
+    <% end %>
+    <a href="/pages">Pages</a>
+    </li>
+    <% if params[:controller] == "airlines" %>
+        <li class="current_page_item">
+    <% else %>
+        <li>
+    <% end %>
+    <%= link_to "Airlines", "/airlines" %>
+    </li>
+    <% if params[:controller] == "destinations" %>
+        <li class="current_page_item">
+    <% else %>
+        <li>
+    <% end %>
+    <%= link_to "Destinations", "/destinations" %>
+    </li>
+    <li>
+      <%= link_to "Home", "/" %>
+    </li>
+    <li>
+      <% if current_user %>
+          <%= link_to "Sign Out", "/sign_out" %>
+      <% else %>
+          <%= link_to "Sign In", "/sign_in" %>
+      <% end %>
+    </li>
+  </ul>
+</div>

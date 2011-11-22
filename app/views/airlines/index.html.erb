@@ -1,0 +1,42 @@
+<div id="content">
+  <div id="flash">
+    <%= render :partial => "/shared/flash" %>
+  </div>
+  <div class="post">
+
+
+    <h1>Listing airlines</h1>
+
+    <table>
+      <tr>
+        <th>Name:</th>
+        <th>Code:</th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+
+      <% @airlines.each do |airline| %>
+          <tr>
+            <td><%= airline.name %></td>
+            <td><%= airline.code %></td>
+            <td><%= link_to 'Show', airline %></td>
+            <td><%= link_to 'Edit', edit_airline_path(airline) %></td>
+            <td><%= link_to 'Destroy', airline, :confirm => 'Are you sure?', :method => :delete %></td>
+          </tr>
+      <% end %>
+    </table>
+
+    <br/>
+
+    <%= link_to 'New Airline', new_airline_path %>
+
+    <br/>
+
+  </div>
+</div>
+<!-- end content -->
+<!-- start sidebar -->
+<%= render :partial => "/shared/sidebar" %>
+<!-- end sidebar -->
+<div style="clear: both;">&nbsp;</div>

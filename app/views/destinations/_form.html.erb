@@ -1,0 +1,69 @@
+<%= javascript_include_tag "tiny_mce/tiny_mce", "mce_init" %>
+<% unless @page.blank? %>
+    <title><%= @page.title %></title>
+    <meta name="description" content="<%= @page.meta_description %>"/>
+    <meta name="keywords" content="<%= @page.meta_keywords %>"/>
+<% end %>
+<%= form_for(@destination) do |f| %>
+    <div id="content">
+      <div id="flash">
+        <%= render :partial => "/shared/flash" %>
+      </div>
+      <div class="post">
+        <% if @destination.errors.any? %>
+            <div id="error_explanation">
+              <h2><%= pluralize(@destination.errors.count, "error") %> prohibited this destination from being
+                saved:</h2>
+
+              <ul>
+                <% @destination.errors.full_messages.each do |msg| %>
+                    <li><%= msg %></li>
+                <% end %>
+              </ul>
+            </div>
+        <% end %>
+        <div class="field">
+          <label>
+            Destination:
+          </label>
+          <br/>
+          <% if params[:ation] == "new" %>
+              <%= select_tag("destination[city_id]", options_for_select(@cities.map { |city| [city.name, city.id] }), :class=> "drop_down_side_form", :style => "width:225px;margin-top:5px;") %>
+          <% else %>
+              <%= select_tag("destination[city_id]", options_for_select(@cities.map { |city| [city.name, city.id] }, @destination.city_id), :class=> "drop_down_side_form", :style => "width:225px;margin-top:5px;") %>
+          <% end %>
+
+        </div>
+        <br/>
+        <div class="field">
+          <%= f.label :page_title %>
+          <br/>
+          <%= f.text_field :page_title %>
+        </div>
+        <div class="field">
+          <%= f.label :meta_keywords %>
+          <br/>
+          <%= f.text_area :meta_keywords %>
+        </div>
+        <div class="field">
+          <%= f.label :meta_description %>
+          <br/>
+          <%= f.text_area :meta_description %>
+        </div>
+        <div class="field">
+          <%= f.label :body_text %>
+          <br/>
+          <%= f.text_area :body_text, :class => "mceEditor" %>
+        </div>
+        <div class="actions">
+          <%= f.submit %>
+        </div>
+        <%= link_to 'Back', destinations_path %>
+      </div>
+    </div>
+    <!-- end content -->
+    <!-- start sidebar -->
+    <%= render :partial => "/shared/sidebar" %>
+    <!-- end sidebar -->
+    <div style="clear: both;">&nbsp;</div>
+<% end %>

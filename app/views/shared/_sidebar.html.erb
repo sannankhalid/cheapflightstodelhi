@@ -1,0 +1,289 @@
+<%= javascript_include_tag "validation/jquery.validate" %>
+<%= stylesheet_link_tag "jquery_stylesheet/jquery-ui_combo" %>
+<%= javascript_include_tag "jquery-ui-timepicker-addon" %>
+<div id="sidebar">
+  <ul>
+    <li>
+      <h2>Send Us Enquiry</h2>
+      <% unless params[:controller] == "devise/sessions" || params[:controller] == "devise/registrations" || params[:controller] == "devise/passwords" || params[:controller] == "devise/confirmations" || params[:controller] == "devise/unlocks" %>
+          <%= form_for :departure, :url => { :controller => "welcome", :action => 'send_enquiry' }, :html => { :multipart => true, :class => 'cmxform', :id => "enquiry_form", :onsubmit => 'return false;' } do |f| %>
+              <div class="enquiry_bg clearfix">
+                <div style='color:red;padding-left:10px;padding-right:10px;padding-bottom:15px;padding-top:25px;text-align:center;display:none;' id="hide_form_data">
+                  Your enquiry have been sent. We will contact you within couple of moments. Thanks
+                </div>
+                <div id="form_content">
+                  <div class="row_area">
+                    <div class="radio_buttons">
+                      <div class="radio_button">
+                        <%= radio_button_tag("flight[type]", "return", false, :class => "required") %>
+                      </div>
+                      <div class="radio_button_text">
+                        <b>Return</b>
+                      </div>
+                    </div>
+                    <div class="radio_buttons" style="padding-left:20px;">
+                      <div class="radio_button">
+                        <%= radio_button_tag("flight[type]", "one_way", false, :class => "required") %>
+                      </div>
+                      <div class="radio_button_text">
+                        <b>One Way</b>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row_area clearfix" style="margin-top: 30px; clear: both;">
+                    <div class="fields">
+                      <div class="field_text">
+                        First Name:
+                      </div>
+                      <div class="field_text_area">
+                        <%= text_field_tag "flight[first_name]", nil, :class => "required" %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row_area">
+                    <div class="fields">
+                      <div class="field_text">
+                        Last Name:
+                      </div>
+                      <div class="field_text_area">
+                        <%= text_field_tag "flight[last_name]", nil, :class => "required" %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row_area">
+                    <div class="fields">
+                      <div class="field_text">
+                        Departure:
+                      </div>
+                      <div class="field_text_area">
+                        <%= select_tag("flight[departure_id]", options_for_select(Departure.all.map { |departure| [departure.airport, departure.id] }), :class => "drop_down_side_form") %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row_area">
+                    <div class="fields">
+                      <div class="field_text">
+                        Destination:
+                      </div>
+                      <div class="field_text_area">
+                        <% @cities = City.find_all_by_country_id("113") %>
+                        <% @selected_city = City.find_by_id("1967") %>
+                        <%= select_tag("flight[destination_id]", options_for_select(@cities.map { |destination| [destination.name, destination.id] }, @selected_city.id), :class => "drop_down_side_form") %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row_area">
+                    <div class="fields">
+                      <div class="field_text">
+                        Mobile:
+                      </div>
+                      <div class="field_text_area">
+                        <%= text_field_tag "flight[mobile]", nil, :class => "required" %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row_area">
+                    <div class="fields">
+                      <div class="field_text">
+                        Email:
+                      </div>
+                      <div class="field_text_area">
+                        <%= text_field_tag "flight[email]", nil, :class => "required" %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row_area">
+                    <div class="fields" style="float:left; width:100px; padding-left:3px;">
+                      <div class="field_text">
+                        Departure Date:
+                      </div>
+                      <div class="field_text_area" style="float:left;width: 75px;">
+                        <%= text_field_tag "flight[departure_date]", nil, :class => "small_text_field_form required" %>
+                      </div>
+                      <div class="calander_icon">
+                        <img src="/images/calendar.png" id="datepickerimage1" alt="" width="20" height="25"/>
+
+                        <div id="datepicker1" style=" display:none;      background-color: #FFFFFF;margin-left: -78px;margin-top: -5px;padding: 5px;position: absolute;z-index: 9999;"></div>
+                      </div>
+                    </div>
+                    <div class="fields" style="float:right; width:100px;">
+                      <div class="field_text">
+                        Return Date:
+                      </div>
+                      <div class="field_text_area" style="float:left;width: 75px;">
+                        <%= text_field_tag "flight[return_date]", nil, :class => "small_text_field_form required" %>
+                      </div>
+                      <div class="calander_icon">
+                        <img src="/images/calendar.png" id="datepickerimage" alt="" width="20" height="25"/>
+
+                        <div id="datepicker" style=" display:none;background-color: rgb(255, 255, 255); padding: 5px; position: absolute; z-index: 9999;margin-left: -80px; margin-top: -5px;"></div>
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="row_area" style="padding-top:15px; clear:both;">
+                    <div class="fields" style="float:left; width:70px;">
+                      <div class="field_text">
+                        Adult:
+                      </div>
+                      <div class="field_text_area" style="float:left;">
+                        <%= text_field_tag "flight[adult]", nil, :class => "small_text_field_form required", :style => "width: 55px !important;" %>
+                      </div>
+                    </div>
+                    <div class="fields" style="float:left; width:70px; padding-left:3px;">
+                      <div class="field_text">
+                        Child:
+                      </div>
+                      <div class="field_text_area" style="float:left;">
+                        <%= text_field_tag "flight[child]", 0, :class => "small_text_field_form required", :style => "width: 55px !important;" %>
+                      </div>
+                    </div>
+                    <div class="fields" style="float:left; width:70px; padding-left:3px;">
+                      <div class="field_text">
+                        Infant:
+                      </div>
+                      <div class="field_text_area" style="float:left;">
+                        <%= text_field_tag "flight[infant]", 0, :class => "small_text_field_form required", :style => "width: 55px !important;" %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row_area" style="clear: both; padding-top: 10px; padding-right: 20px;">
+                    <div class="fields" style="text-align:center;">
+                      <%= image_submit_tag("/images/go.png", :id => "enquiry_form_submit") %>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+          <% end %>
+      <% end %>
+    </li>
+  </ul>
+  <div style="clear:both;text-align:center;">
+    <%= image_tag("/images/call_us.jpg") %>
+    <%= image_tag("/images/payments.jpg") %>
+    <%= image_tag("/images/guarante.jpg", :height => 500, :width => 230) %>
+  </div>
+</div>
+<script>
+    $(document).ready(function() {
+        $("#enquiry_form").validate({
+            rules: {
+                "flight[first_name]":
+                {
+                    required: true
+                },
+                "flight[last_name]":
+                {
+                    required: true
+
+                },
+                "flight[mobile]":
+                {
+                    required: true
+                },
+                "flight[email]":
+                {
+                    required: true,
+                    email: true
+                },
+                "flight[return_date]":
+                {
+                    required: true,
+                    date: true
+                },
+                "flight[departure_date]":
+                {
+                    required: true,
+                    date: true
+                },
+                "flight[adult]":
+                {
+                    required: true,
+                    number: true
+                },
+                "flight[child]":
+                {
+                    required: true,
+                    number: true
+                },
+                "flight[infant]":
+                {
+                    required: true,
+                    number: true
+                }
+            },
+            messages: {
+                "flight[first_name]": "Please enter your First Name",
+                "flight[last_name]": "Please enter your Last Name",
+                "flight[mobile]": "Please enter your Mobile Number",
+                "flight[email]": "Please enter a valid Email Address",
+                "flight[return_date]": "Please enter a valid Date",
+                "flight[departure_date]": "Please enter a valid Date",
+                "flight[adult]": "Please enter number",
+                "flight[child]": "Please enter number",
+                "flight[infant]": "Please enter number"
+            }
+        });
+    });
+    function done_date_picker() {
+        $("#datepicker").hide();
+        $("#datepicker1").hide();
+    }
+    $("#datepicker").datepicker({
+        changeYear: true,
+        changeMonth: true,
+        onSelect: function() {
+            $("#datepicker").hide();
+            $("#flight_return_date").val($("#datepicker").val());
+        }
+    });
+    $("#datepickerimage").click(function() {
+        $("#datepicker").toggle();
+    });
+    $("#datepicker1").datepicker({
+        changeYear: true,
+        changeMonth: true,
+        onSelect: function() {
+            $("#datepicker1").hide();
+            $("#flight_departure_date").val($("#datepicker1").val());
+        }
+    });
+    $("#datepickerimage1").click(function() {
+        $("#datepicker1").toggle();
+    });
+
+    $("#enquiry_form_submit").click(function() {
+        var container = $("#form_content");
+        if (!$("#enquiry_form").valid()) {
+            return false;
+        }
+        else {
+            $('#enquiry_form').submit(function() {
+                $(this).unbind('submit').ajaxSubmit({
+                    success: function(data) {
+                        jQuery.fn.wait = function (MiliSeconds) {
+                            $(this).animate({ opacity: '+=0' }, MiliSeconds);
+                            return this;
+                        }
+                        $.fn.clearForm = function() {
+                            return this.each(function() {
+                                var type = this.type, tag = this.tagName.toLowerCase();
+                                if (tag == 'form')
+                                    return $(':input', this).clearForm();
+                                if (type == 'text' || type == 'password' || tag == 'textarea')
+                                    this.value = '';
+                                else if (type == 'checkbox' || type == 'radio')
+                                    this.checked = false;
+                            });
+                        };
+                        $('#enquiry_form').clearForm();
+                        $("#form_content").fadeOut().wait(7003).fadeIn('fast');
+                        $('#hide_form_data').fadeIn().wait(7000).fadeOut('fast');
+                    }
+                })
+                return false
+            });
+        }
+    });
+</script>

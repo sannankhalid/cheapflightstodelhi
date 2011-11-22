@@ -1,0 +1,51 @@
+<% unless @destination.blank? %>
+    <title><%= @destination.page_title %></title>
+    <meta name="description" content="<%= @destination.meta_description %>"/>
+    <meta name="keywords" content="<%= @destination.meta_keywords %>"/>
+<% end %>
+<div id="content">
+  <div id="flash">
+    <%= render :partial => "/shared/flash" %>
+  </div>
+
+  <div class="post">
+    <p id="notice" style="color:red;"><%= notice %></p>
+
+    <p style="font-size:24px;font-weight:bold;">
+
+      Flights to <%= @destination.city.name %>
+    </p>
+
+    <p>
+      <%= raw(@destination.body_text) %>
+    </p>
+
+    <div style="clear:both;padding-top:10px">
+      <div class="fare_details">
+        <% unless @destination.fare_details.blank? %>
+            <table width="100%" cellpadding="3" cellspacing="3">
+              <tr bgcolor="#f1f1f1">
+                <th>Departure</th>
+                <th>Airline</th>
+                <th>Destination</th>
+                <th>Travel Season</th>
+                <th>Fare</th>
+              </tr>
+              <% @destination.fare_details.each do |fare_detail| %>
+                  <tr>
+                    <td><%= fare_detail.departure.airport %></td>
+                    <td><%= image_tag("/images/airlines/#{fare_detail.airline.name}.jpg") %></td>
+                    <td><%= fare_detail.destination.city.name %></td>
+                    <td><%= fare_detail.from_date.strftime(" %d %b %Y ") %>
+                      to <%= fare_detail.to_date.strftime(" %d %b %Y ") %> </td>
+                    <td> £<%= fare_detail.fare %></td>
+                  </tr>
+              <% end %>
+            </table>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<%= render :partial => "/shared/sidebar" %>
+<div style="clear: both;">&nbsp;</div>

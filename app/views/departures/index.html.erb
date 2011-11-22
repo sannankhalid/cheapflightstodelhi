@@ -1,0 +1,21 @@
+<h1>Listing departures</h1>
+
+<table>
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @departures.each do |departure| %>
+  <tr>
+    <td><%= link_to 'Show', departure %></td>
+    <td><%= link_to 'Edit', edit_departure_path(departure) %></td>
+    <td><%= link_to 'Destroy', departure, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Departure', new_departure_path %>

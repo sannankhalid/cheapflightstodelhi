@@ -1,0 +1,27 @@
+<div id="content">
+  <div id="flash">
+    <%= render :partial => "/shared/flash" %>
+  </div>
+
+  <div class="post">
+    <p id="notice" style="color:red;"><%= notice %></p>
+
+    <p>
+      <b>Name:</b>
+      <%= @airline.name %>
+    </p>
+
+    <p>
+      <b>Code:</b>
+      <%= @airline.code %>
+    </p>
+    <%= link_to 'Edit', edit_airline_path(@airline) %> |
+    <%= link_to 'Back', airlines_path %>
+  </div>
+</div>
+<!-- end content -->
+<!-- start sidebar -->
+<%= render :partial => "/shared/sidebar" %>
+<!-- end sidebar -->
+<div style="clear: both;">&nbsp;</div>
+

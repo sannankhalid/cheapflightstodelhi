@@ -1,0 +1,73 @@
+<% unless @destination.blank? %>
+    <title><%= @destination.page_title %></title>
+    <meta name="description" content="<%= @destination.meta_description %>"/>
+    <meta name="keywords" content="<%= @destination.meta_keywords %>"/>
+<% end %>
+<div id="content">
+  <div id="flash">
+    <%= render :partial => "/shared/flash" %>
+  </div>
+
+  <div class="post">
+    <p id="notice" style="color:red;"><%= notice %></p>
+
+    <p>
+      <b>Name:</b>
+      <%= @destination.city.name %>
+    </p>
+
+    <p>
+      <b>Body Text:</b>
+      <%= raw(@destination.body_text) %>
+    </p>
+
+    <div style="clear:both;padding-top:10px">
+      <div class="fare_details">
+        <% unless @fare_details.blank? %>
+            <table width="100%" cellpadding="3" cellspacing="3">
+              <tr bgcolor="#f1f1f1">
+                <th>Departure</th>
+                <th>Airline</th>
+                <th>Destination</th>
+                <th>Travel Season</th>
+                <th>Fare</th>
+                <th></th>
+                <th></th>
+              </tr>
+              <% @fare_details.each do |fare_detail| %>
+                  <tr>
+                    <td><%= fare_detail.departure.airport %></td>
+                    <td><%= image_tag("/images/airlines/#{fare_detail.airline.name}.jpg") %></td>
+                    <td><%= fare_detail.destination.city.name %></td>
+                    <td><%= fare_detail.from_date.strftime(" %d %b %Y ") %>
+                      to <%= fare_detail.to_date.strftime(" %d %b %Y ") %> </td>
+                    <td> £<%= fare_detail.fare %></td>
+                    <td><%= link_to "Edit Fare", "/fare_details/#{fare_detail.id}/edit?did=#{@destination.id}" %></td>
+                    <td><%= link_to 'Destroy', "javascript:;", :onclick => "destroy_fare(#{fare_detail.id})" %></td>
+                  </tr>
+              <% end %>
+            </table>
+        <% end %>
+      </div>
+    </div>
+    <%= link_to 'Edit', edit_destination_path(@destination) %> |
+    <%= link_to 'Back', destinations_path %> |
+    <td><%= link_to 'Add Fare', "/fare_details/new?did=#{@destination.id}" %></td>
+  </div>
+</div>
+<%= render :partial => "/shared/sidebar" %>
+<div style="clear: both;">&nbsp;</div>
+<script type="text/javascript">
+
+    function destroy_fare(fare_id) {
+        if (confirm("Are you sure you want to delete this fare")) {
+            $.ajax({
+                url: '/destinations/delete_fare?id=' + fare_id, type: 'post', dataType: "html",
+                processData: false,
+                success: function(data) {
+                    window.location.href = "/destinations/<%= params[:id] %>";
+                }
+            });
+        }
+    }
+</script>

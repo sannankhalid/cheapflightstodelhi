@@ -1,0 +1,31 @@
+<div id="content">
+  <div id="flash">
+    <%= render :partial => "/shared/flash" %>
+  </div>
+  <div class="post">
+    <h1>Listing Fare Details</h1>
+
+    <table>
+      <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+
+      <% @fare_details.each do |fare_detail| %>
+          <tr>
+            <td><%= link_to 'Show', fare_detail %></td>
+            <td><%= link_to 'Edit', edit_fare_detail_path(fare_detail) %></td>
+            <td><%= link_to 'Destroy', fare_detail, :confirm => 'Are you sure?', :method => :delete %></td>
+          </tr>
+      <% end %>
+    </table>
+
+    <br/>
+
+    <%#= link_to 'New Fare detail', new_fare_detail_path %>
+
+  </div>
+</div>
+<%= render :partial => "/shared/sidebar" %>
+<div style="clear: both;">&nbsp;</div>

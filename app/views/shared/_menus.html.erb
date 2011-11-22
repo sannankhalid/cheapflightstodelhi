@@ -1,0 +1,68 @@
+<div id="menu">
+  <ul>
+    <% Page.all.each do |page| %>
+        <% if page.name == "Home" %>
+            <% if params[:controller] == "welcome" && params[:action] == "index" %>
+                <li class="current_page_item">
+            <% else %>
+                <li>
+            <% end %>
+            <a href="/"><%= page.name %>
+            </a>
+            </li>
+        <% end %>
+        <% if page.name == "Flights" %>
+            <% if params[:controller] == "welcome" && params[:action] == "flights" %>
+                <li class="current_page_item">
+            <% else %>
+                <li>
+            <% end %>
+            <a href="/welcome/flights"><%= page.name %>
+            </a>
+            </li>
+        <% end %>
+        <% if page.name == "Booking Terms" %>
+            <% if params[:controller] == "welcome" && params[:action] == "booking_terms" %>
+                <li class="current_page_item">
+            <% else %>
+                <li>
+            <% end %>
+            <a href="/welcome/booking_terms"><%= page.name %>
+            </a>
+            </li>
+        <% end %>
+        <% if page.name == "About Us" %>
+
+            <% if params[:controller] == "welcome" && params[:action] == "about_us" %>
+                <li class="current_page_item">
+            <% else %>
+                <li>
+            <% end %>
+            <a href="/welcome/about_us"><%= page.name %>
+            </a>
+            </li>
+        <% end %>
+        <% if page.name == "FAQs" %>
+
+            <% if params[:controller] == "welcome" && params[:action] == "faqs" %>
+                <li class="current_page_item">
+            <% else %>
+                <li>
+            <% end %>
+            <a href="/welcome/faqs"><%= page.name %>
+            </a>
+            </li>
+        <% end %>
+        <% if page.name == "Contact Us" %>
+            <% if params[:controller] == "welcome" && params[:action] == "contact_us" %>
+                <li class="current_page_item">
+            <% else %>
+                <li>
+            <% end %>
+            <a href="/welcome/contact_us"><%= page.name %>
+            </a>
+            </li>
+        <% end %>
+    <% end %>
+  </ul>
+</div>

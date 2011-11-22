@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head xmlns="http://www.w3.org/1999/xhtml">
+  <%= stylesheet_link_tag "admin_main" %>
+  <%= javascript_include_tag "jquery-1.4.4.min", "jquery-ui.min", "jquery.form", "swfobject" %>
+  <%= csrf_meta_tag %>
+  <script type="text/javascript">
+      $(document).ajaxSend(function(e, xhr, options) {
+          var token = $("meta[name='csrf-token']").attr("content");
+          xhr.setRequestHeader("X-CSRF-Token", token);
+      });
+  </script>
+</head>
+<body>
+<!-- start header -->
+<div id="header">
+  <%= image_tag("/images/header.jpg", :width => "960") %>
+</div>
+<!-- end header -->
+<!-- start menu -->
+<%= render :partial => "/shared/admin_menus" %>
+
+<!-- end menu -->
+<!-- start page -->
+<div id="page">
+  <%= yield %>
+</div>
+<div id="footer">
+  <p>&copy;All Rights Reserved.</p>
+</div>
+</body>
+</html>
